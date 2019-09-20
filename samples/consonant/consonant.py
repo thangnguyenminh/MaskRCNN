@@ -136,11 +136,9 @@ class glyphDataset(utils.Dataset):
             image_path = os.path.join(dataset_dir, a["filename"])
             # print(image_path)
             if os.path.exists(image_path):
-                image = skimage.io.imread(image_path)
+                image = skimage.io.imread(image_path, as_gray=True)
                 if image is None:
                     assert("Image doesn't exists")
-                elif len(image.shape) < 3:
-                    image = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
 
                 height, width = image.shape[:2]
             else:
@@ -240,7 +238,7 @@ def detect_and_color_splash(model, image_path=None, video_path=None):
         # Run model detection and generate the color splash effect
         print("Running on {}".format(args.image))
         # Read image
-        image = skimage.io.imread(args.image)
+        image = skimage.io.imread(args.image, as_gray=True)
         # Detect objects
         r = model.detect([image], verbose=1)[0]
         # Color splash
@@ -367,7 +365,7 @@ if __name__ == '__main__':
         # Exclude the last layers because they require a matching
         # number of classes # https://github.com/matterport/Mask_RCNN/issues/849#issuecomment-412003264
         model.load_weights(weights_path, by_name=True, exclude=[
-            "mrcnn_class_logits", "mrcnn_bbox_fc",
+            "conv1", "mrcnn_class_logits", "mrcnn_bbox_fc",
             "mrcnn_bbox", "mrcnn_mask"])
     else:
         model.load_weights(weights_path, by_name=True, exclude=[

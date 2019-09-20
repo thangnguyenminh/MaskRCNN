@@ -1863,10 +1863,10 @@ class MaskRCNN():
                             "For example, use 256, 320, 384, 448, 512, ... etc. ")
 
         # Inputs
-        # input_image = KL.Input(
-        #     shape=[None, None, config.IMAGE_SHAPE[2]], name="input_image")
         input_image = KL.Input(
-            shape=[None, None, 1], name="input_image")
+            shape=[None, None, config.IMAGE_SHAPE[2]], name="input_image")
+        # input_image = KL.Input(
+        #     shape=[None, None, 1], name="input_image")
         input_image_meta = KL.Input(shape=[config.IMAGE_META_SIZE],
                                     name="input_image_meta")
         if mode == "training":
